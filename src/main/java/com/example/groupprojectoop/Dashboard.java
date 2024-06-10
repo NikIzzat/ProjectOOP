@@ -60,7 +60,7 @@ public class Dashboard {
 
             {
                 deleteButton.setOnAction(event -> {
-                    TransactionRecord record = getTableView().getItems().get(getIndex());
+                    TransactionRecord record = getTabsleView().getItems().get(getIndex());
                     getTableView().getItems().remove(record);
 
                     // You can also add code here to remove the record from your data source
