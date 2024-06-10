@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,14 +42,43 @@ public class Dashboard {
         TableColumn<TransactionRecord, String> noteColumn = new TableColumn<>("Note");
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
         noteColumn.setPrefWidth(300); // Set preferred width for the note column
+        TableColumn<TransactionRecord, Void> deleteColumn = getTransactionRecordVoidTableColumn();
 
-        tableView.getColumns().addAll(indexColumn, valueColumn, categoryColumn, dateColumn, noteColumn);
+        tableView.getColumns().addAll(indexColumn, valueColumn, categoryColumn, dateColumn, noteColumn,deleteColumn);
 
         // Load data into the table
         loadTransactionData();
 
         VBox vbox = new VBox(tableView);
         return vbox;
+    }
+
+    private static TableColumn<TransactionRecord, Void> getTransactionRecordVoidTableColumn() {
+        TableColumn<TransactionRecord, Void> deleteColumn = new TableColumn<>("Delete");
+        deleteColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Delete");
+
+            {
+                deleteButton.setOnAction(event -> {
+                    TransactionRecord record = getTableView().getItems().get(getIndex());
+                    getTableView().getItems().remove(record);
+
+                    // You can also add code here to remove the record from your data source
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteButton);
+                }
+            }
+        });
+        deleteColumn.setPrefWidth(100);
+        return deleteColumn;
     }
 
 
