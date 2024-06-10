@@ -1,0 +1,3 @@
+9000.0,Food,2024-06-10,ikan
+10000.0,Entertainment,2024-06-03,wayang
+OVZLX,100.0,Bills,2024-06-11,Api
