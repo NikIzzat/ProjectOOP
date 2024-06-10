@@ -122,7 +122,7 @@ public class Dashboard {
     public void setPassword(String password) {
         if (!passwordValidator.isValidPassword(password)) {
             // Display error message to user
-            System.out.println("Invalid password. Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.");
+            System.out.println("Invalid password. Password must be at least 8 characters long");
         } else {
             // Set the password
             this.passwords = password;
