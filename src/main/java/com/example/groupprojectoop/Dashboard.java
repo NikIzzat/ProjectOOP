@@ -1,5 +1,8 @@
 package com.example.groupprojectoop;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -11,9 +14,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
+
 public class Dashboard {
     private TableView<TransactionRecord> tableView;
     private String passwords;
+    private static String FILE_PATH = null;
+
+    public Dashboard(String name){
+        setFileTrans(name);
+    }
+
+    public void setFileTrans(String name) {
+        FILE_PATH = "trans" + name + ".txt";
+    }
 
     public VBox createDashboard() {
         // Create the table and set its columns
@@ -62,6 +75,18 @@ public class Dashboard {
                 deleteButton.setOnAction(event -> {
                     TransactionRecord record = getTableView().getItems().get(getIndex());
                     getTableView().getItems().remove(record);
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+
+                        for (TransactionRecord transaction : getTableView().getItems()) {
+                            System.out.println(transaction.toString());
+
+                            writer.write(transaction.toString());
+                            writer.newLine();
+                            System.out.println("DELETED");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     // You can also add code here to remove the record from your data source
                 });

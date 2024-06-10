@@ -195,7 +195,7 @@ public class Main extends Application {
     private void goMainPage(Stage stage) {
         Login login = new Login();
         BudgetPlanning budget = new BudgetPlanning(login.getName());
-        Dashboard dashboard = new Dashboard();
+        Dashboard dashboard = new Dashboard(login.getName());
 
         Label welcome = createLabel("Hi " + login.getName() + ", Welcome to MyMoney", 20);
         welcome.setAlignment(Pos.TOP_CENTER);
