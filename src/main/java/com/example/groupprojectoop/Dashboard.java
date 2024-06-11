@@ -67,6 +67,7 @@ public class Dashboard {
     }
 
     private static TableColumn<TransactionRecord, Void> getTransactionRecordVoidTableColumn() {
+        BudgetPlanning budget = new BudgetPlanning();
         TableColumn<TransactionRecord, Void> deleteColumn = new TableColumn<>("Delete");
         deleteColumn.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
@@ -74,6 +75,8 @@ public class Dashboard {
             {
                 deleteButton.setOnAction(event -> {
                     TransactionRecord record = getTableView().getItems().get(getIndex());
+                    double deletedValue=record.getValue();
+                    budget.updateExpense(deletedValue, record.getCategory());
                     getTableView().getItems().remove(record);
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
 

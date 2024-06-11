@@ -464,6 +464,7 @@ public class Main extends Application {
         VBox centerLeftContainer = new VBox(30);
         centerLeftContainer.getChildren().addAll(categoriesContainer, periodContainer, budgetInputContainer, totalBudgetContainer, statusText);
         centerLeftContainer.setPadding(new Insets(20,0,0,30));
+        centerLeftContainer.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 30; -fx-padding: 20; -fx-border-width: 5; -fx-border-color: black; -fx-border-radius: 30;");
         //center right container
         VBox centerRightContainer = new VBox();
         centerRightContainer.getChildren().addAll(currentIncomeBox,buttonContainer);

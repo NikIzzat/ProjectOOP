@@ -210,5 +210,17 @@ public class BudgetPlanning {
             return "Budget set successfully.";
         }
     }
+    public void updateExpense(double deletedValue, String category){
+        int index = -1;
+        for(int i = 0; i<categories.length; i++){
+            if(category.equalsIgnoreCase(categories[i])){
+                index =  i;
+                break;
+            }
+        }
+        expenses[index] -= deletedValue;
+        total_expenses -=  deletedValue;
+        writeData();
+    }
 
 }
