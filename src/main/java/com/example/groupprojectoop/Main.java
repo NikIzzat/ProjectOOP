@@ -33,7 +33,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private Scene scene;
-    private final Image icon = new Image("file:///C:/Users/SAFWAN/Desktop/DEGREE/YEAR%201/SEM%201/ELEMENT%20OF%20PROGRAMMING/GroupProject/src/image/icon.jpeg");
+    private final Image icon = new Image("file:///C:\\Users\\Izzat\\ProjectOOP\\src\\main\\resources\\Images\\icon.jpeg");
     Image backgroundImg= new Image(getClass().getResourceAsStream("/Images/Background.jpg"));
     private final Alert msg = new Alert(Alert.AlertType.NONE);
     private static String FILE_PATH = null;
