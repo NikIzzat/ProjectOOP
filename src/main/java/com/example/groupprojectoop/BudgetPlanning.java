@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
 
 public class BudgetPlanning {
     private static String FILE_PATH = null;
@@ -19,7 +17,7 @@ public class BudgetPlanning {
     private double income = 0;
     private double[] spendBudget = {0, 0, 0, 0, 0, 0, 0, 0};
     private double[] expenses = {0, 0, 0, 0, 0, 0, 0, 0};
-    private double total_expenses = 0;
+    private double totalExpenses = 0;
     public String[] categories = {"Groceries", "Utilities", "Entertainment", "Bills", "Education", "Food", "Medical", "Clothing"};
     private double multiplier = 0;
 
@@ -45,13 +43,13 @@ public class BudgetPlanning {
     
     public double getTotalExpenses() {
         getExpenses();
-        return total_expenses;
+        return totalExpenses;
     }
 
     public void getExpenses() {
-        total_expenses = 0;
+        totalExpenses = 0;
         for (int x = 0; x < expenses.length; x++) {
-            total_expenses += expenses[x];
+            totalExpenses += expenses[x];
         }
     }
     
@@ -82,7 +80,7 @@ public class BudgetPlanning {
     }
 
     public double getBalance() {
-        return income - total_expenses;
+        return income - totalExpenses;
     }
 
     public void setFile(String name) {
@@ -107,7 +105,7 @@ public class BudgetPlanning {
                 String[] values = tempRead.split(",");
                 if (values.length >= 10) { // Ensure correct length for both budgets and expenses
                     income = Double.parseDouble(values[0]);
-                    total_expenses = Double.parseDouble(values[1]);
+                    totalExpenses = Double.parseDouble(values[1]);
                     for (int i = 0; i < 8; i++) {
                             spendBudget[i] = Double.parseDouble(values[i+2]);
                             expenses[i] = Double.parseDouble(values[i+10]);
@@ -134,7 +132,7 @@ public class BudgetPlanning {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             StringBuilder sb = new StringBuilder();
-            sb.append(income).append(",").append(total_expenses);
+            sb.append(income).append(",").append(totalExpenses);
             for (double value : spendBudget) {
                 sb.append(",").append(value);
                 //System.out.print(sb.toString());
@@ -219,7 +217,7 @@ public class BudgetPlanning {
             }
         }
         expenses[index] -= deletedValue;
-        total_expenses -=  deletedValue;
+        totalExpenses -=  deletedValue;
         writeData();
     }
 

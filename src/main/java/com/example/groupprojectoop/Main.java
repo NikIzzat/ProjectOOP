@@ -1,7 +1,3 @@
-//semua takde back button
-//masukkan income choice in transaction
-//expense attribute change into transaction class
-//validation for expense exceed budget
 
 package com.example.groupprojectoop;
 
@@ -47,7 +43,7 @@ public class Main extends Application {
 
         // Create main scene
         VBox mainLayout = createMainLayout(primaryStage);
-        mainLayout.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 30; -fx-padding: 15; -fx-border-width: 10; -fx-border-color: black; -fx-border-radius: 30;");//set color and shape
+        mainLayout.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 35; -fx-padding: 15; -fx-border-width: 10; -fx-border-color: black; -fx-border-radius: 30;");//set color and shape
 
         scene = new Scene(mainLayout, 300, 300, Color.BLACK);
         primaryStage.setScene(scene);
@@ -88,19 +84,23 @@ public class Main extends Application {
     private void logInPage(Stage stage) {
         ImageView logo = createLogo(300, 300, 0.5);
 
-        Label usernameLabel = createLabel("Username:", 18, 100);
+        Label usernameLabel = createLabel("Username:", 16, 100);
         TextField usernameField = createTextField(100);
         usernameField.setPromptText("username");
 
         HBox usernameBox = new HBox(10, usernameLabel, usernameField);
         usernameBox.setAlignment(Pos.CENTER);
 
-        Label passwordLabel = createLabel("Password:", 18, 100);
+        Label passwordLabel = createLabel("Password:", 16, 100);
         PasswordField passwordField = createPasswordField(100);
         passwordField.setPromptText("password");
 
         HBox passwordBox = new HBox(10, passwordLabel, passwordField);
         passwordBox.setAlignment(Pos.CENTER);
+        Button cancelBTN = createButton("Cancel", 100, e -> start(stage));
+        cancelBTN.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+        cancelBTN.setOnMouseEntered(e ->cancelBTN.setStyle("-fx-background-color: darkgreen;"));
+        cancelBTN.setOnMouseExited(e -> cancelBTN.setStyle("-fx-background-color: green;"));
         Login login = new Login();
         Button loginButton = createButton("Login", 100, e -> {
             String username = usernameField.getText();
@@ -115,10 +115,12 @@ public class Main extends Application {
         loginButton.setOnMouseEntered(e -> loginButton.setStyle("-fx-background-color: darkgreen;"));
         loginButton.setOnMouseExited(e -> loginButton.setStyle("-fx-background-color: green;"));
 
-        VBox layout = new VBox(10,  usernameBox, passwordBox, loginButton);
+        HBox buttonBox = new HBox(15, cancelBTN, loginButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        VBox layout = new VBox(10,  usernameBox, passwordBox, buttonBox);
         layout.setAlignment(Pos.CENTER);
         StackPane root = new StackPane(logo,layout);
-        root.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 30; -fx-padding: 15; -fx-border-width: 10; -fx-border-color: black; -fx-border-radius: 30;");//set color and shape
+        root.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 35; -fx-padding: 15; -fx-border-width: 10; -fx-border-color: black; -fx-border-radius: 30;");//set color and shape
 
         scene = new Scene(root, 300, 300, Color.BLACK);
         stage.setScene(scene);
@@ -149,6 +151,10 @@ public class Main extends Application {
         HBox passwordBox = new HBox(10, passwordLabel, passwordField);
         passwordBox.setAlignment(Pos.CENTER);
         Login login = new Login();
+        Button cancelBTN = createButton("Cancel", 100, e -> start(stage));
+        cancelBTN.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+        cancelBTN.setOnMouseEntered(e ->cancelBTN.setStyle("-fx-background-color: darkgreen;"));
+        cancelBTN.setOnMouseExited(e -> cancelBTN.setStyle("-fx-background-color: green;"));
         Button signUpButton = createButton("SignUp", 100, e -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
@@ -170,8 +176,10 @@ public class Main extends Application {
             }
 
         });
+        HBox buttonBox = new HBox(15, cancelBTN, signUpButton);
+        buttonBox.setAlignment(Pos.CENTER);
 
-        VBox layout = new VBox(10,  usernameBox, passwordBox, signUpButton);
+        VBox layout = new VBox(10,  usernameBox, passwordBox, buttonBox);
         layout.setAlignment(Pos.CENTER);
         StackPane root = new StackPane(logo,layout);
         scene = new Scene(root, 300, 300, Color.BLACK);
@@ -258,16 +266,17 @@ public class Main extends Application {
         Label indexLabel = createLabel("Enter No. to edit :", 16);
         TextField indexField = createTextField(80);
         Button proceed = createButton("Proceed", 16, e -> edit(stage, Integer.parseInt(indexField.getText())));
-        VBox indexBox = new VBox(10, indexLabel, indexField, proceed);
+        Button cancelBTN = createButton("Cancel", 60, e -> goMainPage(stage));
+        HBox cancelBox = new HBox(20, cancelBTN, proceed);
+        cancelBox.setAlignment(Pos.CENTER);
+        VBox indexBox = new VBox(10, indexLabel, indexField, cancelBox);
+        indexBox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(indexBox, 300, 300, Color.BLACK);
         stage.setScene(scene);
-        String text = indexField.getText().trim(); // Remove leading and trailing whitespaces
-        if (!text.isEmpty()) {
-            return Integer.parseInt(text);
-        } else {
-            showErrorMessage("Please enter a valid index.");
-            return -1; // Or any other default value indicating an error
-        }
+
+        String text = indexField.getText().trim() + "-1"; // Remove leading and trailing whitespaces
+
+        return Integer.parseInt(text);
 
     }
 
@@ -321,8 +330,10 @@ public class Main extends Application {
             Scene editScene = new Scene(editForm, 400, 300);
             stage.setScene(editScene);
             stage.show();
-        } else {
-            showErrorMessage("Invalid index.");
+        } else if(index == - 1){
+        }
+        else{
+            showErrorMessage("Invalid value");
         }
     }
 
@@ -330,6 +341,7 @@ public class Main extends Application {
         BudgetPlanning budget = new BudgetPlanning();
         Label incomeLabel = createLabel("Income: ", 15, 75);
         TextField incomeField = createTextField(100);
+        Button cancelBTN = createButton("Cancel", 60, e -> goMainPage(stage));
         Button setIncomeButton = createButton("Set Income", 100, e -> {
             try {
                 double income = Double.parseDouble(incomeField.getText());
@@ -341,9 +353,13 @@ public class Main extends Application {
             goMainPage(stage);
         });
 
-        HBox incomeBox = new HBox(10, incomeLabel, incomeField, setIncomeButton);
+        HBox buttonBox = new HBox(10, cancelBTN, setIncomeButton);
+        HBox incomeBox = new HBox(10, incomeLabel, incomeField);
+        VBox root = new VBox(20, incomeBox, buttonBox);
+        buttonBox.setAlignment(Pos.CENTER);
         incomeBox.setAlignment(Pos.CENTER);
-        scene = new Scene(incomeBox, 300, 300, Color.BLACK);
+        root.setAlignment(Pos.CENTER);
+        scene = new Scene(root, 300, 300, Color.BLACK);
         stage.setScene(scene);
         stage.show();
     }
@@ -404,8 +420,7 @@ public class Main extends Application {
         currentIncomeText.setFont(Font.font("Verdana", 15));
         Text incomeValue = new Text("RM " + budget.getIncome());
         incomeValue.setFont(Font.font("Verdana", 15));
-        VBox currentIncomeBox = new VBox(5);
-        currentIncomeBox.getChildren().addAll(currentIncomeText,incomeValue);
+        VBox currentIncomeBox = new VBox(5, currentIncomeText,incomeValue);
         currentIncomeBox.setAlignment(Pos.CENTER);
         currentIncomeBox.setPadding(new Insets(0,0,330,130));
         //status text
@@ -424,18 +439,16 @@ public class Main extends Application {
         periodContainer.setPadding(new Insets(0,0,0,0));
 
         //container for total budget
-        HBox totalBudgetContainer = new HBox();
+        HBox totalBudgetContainer = new HBox(totalBudgetLbl, totalBudgetTf);
         totalBudgetContainer.setAlignment(Pos.CENTER_LEFT);
         totalBudgetContainer.setPadding(new Insets(20,0,0,0));
-        totalBudgetContainer.getChildren().addAll(totalBudgetLbl, totalBudgetTf);
 
         //container for budgetInput
-        VBox budgetInputContainer = new VBox(10);
+        VBox budgetInputContainer = new VBox(10, budgetInputLBL, budgetInputTF);
         budgetInputContainer.setPadding(new Insets(0,0,0,0));
-        budgetInputContainer.getChildren().addAll(budgetInputLBL, budgetInputTF);
 
         //back button
-        Button backBtn = createButton("Back", 120, e -> goMainPage(stage));
+        Button cancelBtn = createButton("Cancel", 120, e -> goMainPage(stage));
         //proceed button
         Button setBudgetBtn = createButton("Set Budget", 120, e ->{
             try{
@@ -451,7 +464,7 @@ public class Main extends Application {
             }
         });
         HBox buttonContainer = new HBox(10);
-        buttonContainer.getChildren().addAll(backBtn,setBudgetBtn);
+        buttonContainer.getChildren().addAll(cancelBtn,setBudgetBtn);
         buttonContainer.setPadding(new Insets(0,0,30,50));
 
         //top container
@@ -465,7 +478,8 @@ public class Main extends Application {
         VBox centerLeftContainer = new VBox(30);
         centerLeftContainer.getChildren().addAll(categoriesContainer, periodContainer, budgetInputContainer, totalBudgetContainer, statusText);
         centerLeftContainer.setPadding(new Insets(20,0,0,30));
-        centerLeftContainer.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 30; -fx-padding: 20; -fx-border-width: 5; -fx-border-color: black; -fx-border-radius: 30;");
+        centerLeftContainer.setAlignment(Pos.CENTER);
+        centerLeftContainer.setStyle("-fx-background-color: rgba(199, 184, 234, 1.0); -fx-background-radius: 30; -fx-padding: 20; -fx-border-width: 3; -fx-border-color: black; -fx-border-radius: 30;");
         //center right container
         VBox centerRightContainer = new VBox();
         centerRightContainer.getChildren().addAll(currentIncomeBox,buttonContainer);
@@ -514,7 +528,7 @@ public class Main extends Application {
         TextField noteField = createTextField(100);
 
         DatePicker datePicker = new DatePicker();
-
+        Button cancelBTN = createButton("Cancel", 60, e -> goMainPage(stage));
         Button proceedButton = createButton("Proceed", 100, e -> {
             if (datePicker.getValue() == null) {
                 showErrorMessage("Please choose a date.");
@@ -541,7 +555,9 @@ public class Main extends Application {
         HBox box2 = new HBox(10, datePicker, noteLabel, noteField);
         box2.setSpacing(20);
         box2.setAlignment(Pos.CENTER);
-        VBox root = new VBox(10, box1, box2, proceedButton);
+        HBox box3 = new HBox(10, cancelBTN, proceedButton);
+        box3.setAlignment(Pos.CENTER);
+        VBox root = new VBox(10, box1, box2, box3);
         root.setAlignment(Pos.CENTER);
 
         scene = new Scene(root, 600, 300, Color.BLACK);
